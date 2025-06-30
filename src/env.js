@@ -16,6 +16,11 @@ export const env = createEnv({
     SMTP_USER: z.string(),
     SMTP_PASS: z.string(),
     SMTP_FROM: z.string(),
+    SAGE_SERVER: z.string(),
+    SAGE_PORT: z.coerce.number().int(),
+    SAGE_USER: z.string(),
+    SAGE_PASS: z.string(),
+    SAGE_DB: z.string(),
   },
 
   /**
@@ -39,6 +44,11 @@ export const env = createEnv({
     SMTP_PASS: process.env.SMTP_PASS,
     SMTP_FROM: process.env.SMTP_FROM,
     NODE_ENV: process.env.NODE_ENV,
+    SAGE_SERVER: process.env.SAGE_SERVER,
+    SAGE_PORT: process.env.SAGE_PORT,
+    SAGE_USER: process.env.SAGE_USER,
+    SAGE_PASS: process.env.SAGE_PASS,
+    SAGE_DB: process.env.SAGE_DB,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**
