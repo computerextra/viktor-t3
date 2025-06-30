@@ -1,20 +1,125 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "mysql"
-    url      = env("DATABASE_URL")
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model Abteilung {
+  id          String        @id
+  name        String
+  Mitarbeiter Mitarbeiter[]
+}
 
-    @@index([name])
+model Angebot {
+  id         String   @id
+  title      String
+  subtitle   String?
+  date_start DateTime
+  date_stop  DateTime
+  link       String
+  image      String
+  anzeigen   Boolean  @default(false)
+}
+
+model Ansprechpartner {
+  id          String    @id
+  name        String
+  telefon     String?
+  mobil       String?
+  mail        String?
+  lieferantId String
+  Lieferant   Lieferant @relation(fields: [lieferantId], references: [id])
+
+  @@index([lieferantId], map: "Ansprechpartner_lieferantId_fkey")
+}
+
+model Aussteller {
+  id            Int     @id
+  Artikelnummer String
+  Artikelname   String
+  Specs         String  @db.Text
+  Preis         Decimal
+  Bild          String? @db.Text
+}
+
+model Einkauf {
+  id          String        @id
+  Paypal      Boolean       @default(false)
+  Abonniert   Boolean       @default(false)
+  Geld        String?
+  Pfand       String?
+  Dinge       String        @db.Text
+  Abgeschickt DateTime
+  Bild1       String?
+  Bild2       String?
+  Bild3       String?
+  Mitarbeiter Mitarbeiter[]
+}
+
+model Jobs {
+  id     String  @id
+  name   String
+  online Boolean @default(false)
+}
+
+model Lieferant {
+  id              String            @id
+  Firma           String
+  Kundennummer    String?
+  Webseite        String?
+  Ansprechpartner Ansprechpartner[]
+}
+
+model Mitarbeiter {
+  id               String     @id
+  name             String     @unique
+  short            String?
+  image            Boolean    @default(false)
+  sex              String?
+  focus            String?
+  mail             String?    @unique
+  abteilungId      String?
+  einkaufId        String?
+  Azubi            Boolean    @default(false)
+  Geburtstag       DateTime?
+  Gruppenwahl      String?
+  HomeOffice       String?
+  Mobil_Business   String?
+  Mobil_Privat     String?
+  Telefon_Business String?
+  Telefon_Intern_1 String?
+  Telefon_Intern_2 String?
+  Telefon_Privat   String?
+  Abteilung        Abteilung? @relation(fields: [abteilungId], references: [id])
+  Einkauf          Einkauf?   @relation(fields: [einkaufId], references: [id])
+
+  @@index([abteilungId], map: "Mitarbeiter_abteilungId_fkey")
+  @@index([einkaufId], map: "Mitarbeiter_einkaufId_fkey")
+}
+
+model Partner {
+  id    String @id
+  name  String
+  link  String
+  image String
+}
+
+model Pdfs {
+  id    Int    @id
+  title String
+  body  String @db.Text
+}
+
+model Warenlieferung {
+  Name          String
+  angelegt      DateTime  @default(now())
+  geliefert     DateTime?
+  AlterPreis    Decimal?
+  NeuerPreis    Decimal?
+  Preis         DateTime?
+  Artikelnummer String
+  id            Int       @id
 }
