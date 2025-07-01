@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "./viktor-database-client"
 }
 
 datasource db {
@@ -108,7 +109,7 @@ model Partner {
 }
 
 model Pdfs {
-  id    Int    @id
+  id    Int    @id @default(autoincrement())
   title String
   body  String @db.Text
 }

@@ -8,6 +8,7 @@ export const env = createEnv({
    */
   server: {
     DATABASE_URL: z.string().url(),
+    SAGE_URL: z.string(),
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
@@ -16,11 +17,7 @@ export const env = createEnv({
     SMTP_USER: z.string(),
     SMTP_PASS: z.string(),
     SMTP_FROM: z.string(),
-    SAGE_SERVER: z.string(),
-    SAGE_PORT: z.coerce.number().int(),
-    SAGE_USER: z.string(),
-    SAGE_PASS: z.string(),
-    SAGE_DB: z.string(),
+    ARCHIVE_PATH: z.string(),
   },
 
   /**
@@ -38,17 +35,15 @@ export const env = createEnv({
    */
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
+    SAGE_URL: process.env.SAGE_URL,
     SMTP_HOST: process.env.SMTP_HOST,
     SMTP_PORT: process.env.SMTP_PORT,
     SMTP_USER: process.env.SMTP_USER,
     SMTP_PASS: process.env.SMTP_PASS,
     SMTP_FROM: process.env.SMTP_FROM,
     NODE_ENV: process.env.NODE_ENV,
-    SAGE_SERVER: process.env.SAGE_SERVER,
-    SAGE_PORT: process.env.SAGE_PORT,
-    SAGE_USER: process.env.SAGE_USER,
-    SAGE_PASS: process.env.SAGE_PASS,
-    SAGE_DB: process.env.SAGE_DB,
+    ARCHIVE_PATH: process.env.ARCHIVE_PATH,
+
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**
