@@ -14,7 +14,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import type { Pdfs } from "viktor/viktor-database-client";
 import { z } from "zod";
 import ArchiveTable from "./archive-table";
 
@@ -24,13 +23,37 @@ const formSchema = z.object({
   }),
 });
 
+function makeid(length: number): string {
+  let result = "";
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
+
 export default function ArchiveForm() {
-  const [results, setResults] = useState<undefined | Pdfs[]>(undefined);
+  const [results, setResults] = useState<
+    undefined | { id: number; title: string }[]
+  >(undefined);
   const utils = api.useUtils();
   const sucher = api.archiv.search.useMutation({
     onSuccess: async (data) => {
       await utils.archiv.invalidate();
       setResults(data);
+    },
+  });
+
+  const getter = api.archiv.get.useMutation({
+    onSuccess: (data) => {
+      const linkSource = `data:application/pdf;base64,${data}`;
+      const downloadLink = document.createElement("a");
+      const fileName = makeid(5) + ".pdf";
+      downloadLink.href = linkSource;
+      downloadLink.download = fileName;
+      downloadLink.click();
     },
   });
 
@@ -42,14 +65,21 @@ export default function ArchiveForm() {
     await sucher.mutateAsync({ search: values.search });
   };
 
-  const columns: ColumnDef<Pdfs>[] = [
+  const columns: ColumnDef<{ id: number; title: string }>[] = [
     {
       accessorKey: "title",
       header: "Title",
       cell: ({ row }) => {
         const x = row.original;
 
-        return <p>{x?.title}</p>;
+        return (
+          <p
+            className="cursor-pointer"
+            onClick={async () => getter.mutateAsync({ id: x.id })}
+          >
+            {x?.title}
+          </p>
+        );
       },
     },
   ];
