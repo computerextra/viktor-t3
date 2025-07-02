@@ -2,6 +2,10 @@ import { env } from "@/env";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import type { Warenlieferung } from "@prisma/client";
 import nodemailer from "nodemailer";
+import type {
+  sg_auf_lager_history,
+  sg_auf_vkpreis_history,
+} from "sage/sage-database-client";
 
 export const warenlieferungRouter = createTRPCRouter({
   generate: publicProcedure.mutation(async ({ ctx }) => {
@@ -9,61 +13,13 @@ export const warenlieferungRouter = createTRPCRouter({
 
     const SageArtikel = await ctx.sage.sg_auf_artikel.findMany({});
 
-    const LagerHistory = await ctx.sage.sg_auf_lager_history.findMany({
-      where: {
-        AND: [
-          {
-            BEWEGUNG: { gte: 0 },
-          },
-          {
-            BEMERKUNG: {
-              contains: "Warenlieferung:",
-            },
-          },
-          {
-            Hist_Datetime: {
-              lte: new Date(),
-            },
-          },
-          {
-            Hist_Datetime: {
-              gt: new Date(
-                new Date().getFullYear(),
-                new Date().getMonth(),
-                new Date().getDate(),
-                0,
-                0,
-                0,
-                0,
-              ),
-            },
-          },
-        ],
-      },
-    });
+    const LagerHistory = await ctx.sage.$queryRaw<
+      sg_auf_lager_history[]
+    >`SELECT * FROM sg_auf_lager_history WHERE BEWEGUNG >= 0 AND BEMERKUNG LIKE 'Warenlieferung:%%' AND convert(varchar, Hist_Datetime, 105) = convert(varchar, getdate(), 105)`;
 
-    const Prices = await ctx.sage.sg_auf_vkpreis_history.findMany({
-      where: {
-        AND: [
-          {
-            Hist_Datetime: { lte: new Date() },
-          },
-          {
-            Hist_Datetime: {
-              gt: new Date(
-                new Date().getFullYear(),
-                new Date().getMonth(),
-                new Date().getDate(),
-                0,
-                0,
-                0,
-                0,
-              ),
-            },
-          },
-        ],
-      },
-    });
+    const Prices = await ctx.sage.$queryRaw<
+      sg_auf_vkpreis_history[]
+    >`SELECT * FROM sg_auf_vkpreis_history WHERE convert(varchar, Hist_Datetime, 105) = convert(varchar, getdate(), 105)`;
 
     const newArtikel: Warenlieferung[] = [];
     const gelieferteIds: number[] = [];
@@ -453,7 +409,6 @@ export const warenlieferungRouter = createTRPCRouter({
       " €</p>";
     body +=
       "<p>Offene Posten laut Sage: " +
-      // TODO: Wert ist 0!
       Gesamtwert.toFixed(2) +
       "€* (Hier kann nicht nach bereits lagernder Ware gesucht werden!)</p>";
 
@@ -592,9 +547,7 @@ export const warenlieferungRouter = createTRPCRouter({
 
     const res = await transporter.sendMail({
       from: env.SMTP_FROM,
-      // TODO: Uncomment!
-      // to: mails,
-      to: "johannes.kirchner@computer-extra.de",
+      to: mails,
       subject:
         "Warenlieferung vom " +
         new Date().toLocaleDateString("de-DE", {
