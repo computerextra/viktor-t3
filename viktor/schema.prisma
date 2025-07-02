@@ -123,3 +123,9 @@ model Warenlieferung {
   Artikelnummer String
   id            Int       @id
 }
+
+model Status {
+  id     Int    @id @default(autincrement())
+  status String
+  since  String
+}
