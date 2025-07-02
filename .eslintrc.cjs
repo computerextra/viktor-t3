@@ -1,9 +1,5 @@
 /** @type {import("eslint").Linter.Config} */
 const config = {
-  ignorePatterns: [
-    "./viktor/viktor-database-client/*.*",
-    "./sage/sage-database-client/*.*",
-  ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
     project: true,
