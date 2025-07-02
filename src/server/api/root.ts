@@ -1,5 +1,7 @@
 import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
 import { archivRouter } from "./routers/archiv";
+import { einkaufRouter } from "./routers/einkauf";
+import { mitarbeiterRouter } from "./routers/mitarbeiter";
 import { warenlieferungRouter } from "./routers/warenlieferung";
 
 /**
@@ -11,6 +13,8 @@ export const appRouter = createTRPCRouter({
   // post: postRouter,
   warenlieferung: warenlieferungRouter,
   archiv: archivRouter,
+  einkauf: einkaufRouter,
+  mitarbeiter: mitarbeiterRouter,
 });
 
 // export type definition of API

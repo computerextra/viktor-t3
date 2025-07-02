@@ -9,13 +9,13 @@ datasource db {
 }
 
 model Abteilung {
-  id          String        @id
+  id          String        @id @default(cuid())
   name        String
   Mitarbeiter Mitarbeiter[]
 }
 
 model Angebot {
-  id         String   @id
+  id         String   @id @default(cuid())
   title      String
   subtitle   String?
   date_start DateTime
@@ -26,7 +26,7 @@ model Angebot {
 }
 
 model Ansprechpartner {
-  id          String    @id
+  id          String    @id @default(cuid())
   name        String
   telefon     String?
   mobil       String?
@@ -47,27 +47,27 @@ model Aussteller {
 }
 
 model Einkauf {
-  id          String        @id
-  Paypal      Boolean       @default(false)
-  Abonniert   Boolean       @default(false)
+  id          String       @id @default(cuid())
+  Paypal      Boolean      @default(false)
+  Abonniert   Boolean      @default(false)
   Geld        String?
   Pfand       String?
-  Dinge       String        @db.Text
+  Dinge       String       @db.Text
   Abgeschickt DateTime
   Bild1       String?
   Bild2       String?
   Bild3       String?
-  Mitarbeiter Mitarbeiter[]
+  Mitarbeiter Mitarbeiter?
 }
 
 model Jobs {
-  id     String  @id
+  id     String  @id @default(cuid())
   name   String
   online Boolean @default(false)
 }
 
 model Lieferant {
-  id              String            @id
+  id              String            @id @default(cuid())
   Firma           String
   Kundennummer    String?
   Webseite        String?
@@ -75,7 +75,7 @@ model Lieferant {
 }
 
 model Mitarbeiter {
-  id               String     @id
+  id               String     @id @default(cuid())
   name             String     @unique
   short            String?
   image            Boolean    @default(false)
@@ -83,7 +83,7 @@ model Mitarbeiter {
   focus            String?
   mail             String?    @unique
   abteilungId      String?
-  einkaufId        String?
+  einkaufId        String?    @unique
   Azubi            Boolean    @default(false)
   Geburtstag       DateTime?
   Gruppenwahl      String?
@@ -98,11 +98,10 @@ model Mitarbeiter {
   Einkauf          Einkauf?   @relation(fields: [einkaufId], references: [id])
 
   @@index([abteilungId], map: "Mitarbeiter_abteilungId_fkey")
-  @@index([einkaufId], map: "Mitarbeiter_einkaufId_fkey")
 }
 
 model Partner {
-  id    String @id
+  id    String @id @default(cuid())
   name  String
   link  String
   image String
