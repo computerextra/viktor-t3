@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { api } from "@/trpc/react";
 import type { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { Globe, GraduationCap, MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { Abteilung, Mitarbeiter } from "viktor/viktor-database-client";
@@ -35,6 +35,17 @@ export default function MitarbeiterTable() {
     {
       accessorKey: "name",
       header: "Name",
+      cell: ({ row }) => {
+        const x = row.original;
+
+        return (
+          <p className="flex items-center gap-2">
+            {x.Azubi && <GraduationCap className="h-4 w-4" />}
+            {x.mail && <Globe className="h-4 w-4" />}
+            {x.name}
+          </p>
+        );
+      },
     },
     {
       accessorKey: "mail",
@@ -159,6 +170,15 @@ export default function MitarbeiterTable() {
       <Button asChild className="mb-5">
         <Link href="/CMS/Mitarbeiter/Neu">Neuen Mitarbeiter anlegen</Link>
       </Button>
+      <p className="mb-2">
+        Icon Legende: <br />
+        <span className="flex items-center gap-2">
+          <GraduationCap className="h-4 w-4" />: Azubi
+        </span>
+        <span className="flex items-center gap-2">
+          <Globe className="h-4 w-4" />: Auf Webseite angezeigt
+        </span>
+      </p>
       <CmsTable columns={columns} data={Abteilungen.data ?? []} />
     </div>
   );
