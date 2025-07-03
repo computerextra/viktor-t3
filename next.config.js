@@ -12,6 +12,9 @@ const config = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  images: {
+    remotePatterns: [new URL("https://computer-extra.de/Images/Partner/**")],
+  },
 };
 
 export default config;

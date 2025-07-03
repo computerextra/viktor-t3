@@ -63,6 +63,17 @@ export default function NavBar() {
               Warenlieferung
             </Link>
           </NavigationMenuItem>
+          <NavigationMenuItem>
+            <Link
+              href="/CMS"
+              className={cn(
+                "hover:bg-accent text-main-foreground rounded-base hover:border-border block space-y-1 border-2 border-transparent p-3 leading-none no-underline outline-hidden transition-colors select-none",
+                navigationMenuTriggerStyle(),
+              )}
+            >
+              CMS
+            </Link>
+          </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
     </div>
