@@ -1,0 +1,17 @@
+- [x] Einkaufsliste
+- [x] CE Archiv
+- [x] Warenlieferungsmail
+- [x] Verwaltung für Webseite
+- [x] Mitarbeiter Übersicht mit Internen/Externen Telefonnummern
+- [x] Bilder für Einkauf
+- [ ] Kunden / Lieferantensuche mit SAGE Integration
+- [ ] Rückwärtssuche nach Telefonnummern mit SAGE Integration
+- [ ] Lieferantenübersicht mit Ansprechpartnern
+- [ ] URL Shortener
+- [ ] Bilder Ablage für Webseite
+- [ ] Vorlage für CE SN mit Artikelsuche über SAGE (Service App wird nicht weiterentwickelt)
+- [ ] Infomail an Kunden für ET-Abholung (Service App wird nicht weiterentwickelt)
+- [ ] Digitale Preisschilder Sync mit SAGE (Service App wird nicht weiterentwickelt)
+- [ ] Bilder für Preisschilder (Admin) (Service App wird nicht weiterentwickelt)
+- [ ] Preislabel Sync mit SAGE (Service App wird nicht weiterentwickelt)
+- [ ] Benutzerverwaltung mit Login und Rechte System (noch nicht entschieden)
