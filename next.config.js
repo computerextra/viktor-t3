@@ -13,9 +13,17 @@ const config = {
     ignoreBuildErrors: true,
   },
   images: {
+    unoptimized: true,
+
     remotePatterns: [
-      new URL("https://computer-extra.de/Images/Partner/**"),
-      new URL("https://ohlejl5x6p.ufs.sh/"),
+      {
+        protocol: "http",
+        hostname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "**",
+      },
     ],
   },
 };
