@@ -28,7 +28,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import ImageUpload from "./image-upload";
@@ -44,6 +44,8 @@ const formSchema = z.object({
 export default function EinkaufForm({ id }: { id: string }) {
   const Einkauf = api.einkauf.get.useQuery({ id });
   const router = useRouter();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const updater = api.einkauf.update.useMutation({
     onSuccess: async () => {
@@ -113,7 +115,7 @@ export default function EinkaufForm({ id }: { id: string }) {
                   <FormItem>
                     <FormLabel>Geld</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input disabled={isLoading} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -126,7 +128,7 @@ export default function EinkaufForm({ id }: { id: string }) {
                   <FormItem>
                     <FormLabel>Pfand</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input disabled={isLoading} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -150,6 +152,7 @@ export default function EinkaufForm({ id }: { id: string }) {
                       </div>
                       <FormControl>
                         <Switch
+                          disabled={isLoading}
                           checked={field.value}
                           onCheckedChange={field.onChange}
                         />
@@ -172,6 +175,7 @@ export default function EinkaufForm({ id }: { id: string }) {
                       </div>
                       <FormControl>
                         <Switch
+                          disabled={isLoading}
                           checked={field.value}
                           onCheckedChange={field.onChange}
                         />
@@ -188,26 +192,34 @@ export default function EinkaufForm({ id }: { id: string }) {
                 <FormItem>
                   <FormLabel>Dein Einkauf</FormLabel>
                   <FormControl>
-                    <Textarea {...field} />
+                    <Textarea disabled={isLoading} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit">Speichern</Button>
+            <Button disabled={isLoading} type="submit">
+              Speichern
+            </Button>
           </form>
         </Form>
       </div>
+
+      {isLoading && (
+        <p className="text-center text-6xl">Bitte warten, es lädt gerade</p>
+      )}
       <div className="mx-auto mt-5 grid max-w-4xl grid-cols-3 gap-8">
-        <ImageUpload id={id} nr={1} />
-        <ImageUpload id={id} nr={2} />
-        <ImageUpload id={id} nr={3} />
+        <ImageUpload id={id} nr={1} setLoading={setIsLoading} />
+        <ImageUpload id={id} nr={2} setLoading={setIsLoading} />
+        <ImageUpload id={id} nr={3} setLoading={setIsLoading} />
       </div>
       <Separator className="my-8" />
       <div className="mx-auto grid max-w-[60%] grid-cols-2 gap-8">
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant={"neutral"}>Einkauf löschen</Button>
+            <Button variant={"neutral"} disabled={isLoading}>
+              Einkauf löschen
+            </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
@@ -236,7 +248,9 @@ export default function EinkaufForm({ id }: { id: string }) {
         </AlertDialog>
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant={"neutral"}>Einkauf auf morgen verschieben</Button>
+            <Button variant={"neutral"} disabled={isLoading}>
+              Einkauf auf morgen verschieben
+            </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>

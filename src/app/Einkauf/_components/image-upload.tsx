@@ -9,16 +9,26 @@ import { useEffect, useState } from "react";
 const StockImage =
   "https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80";
 
-export default function ImageUpload({ id, nr }: { id: string; nr: number }) {
+export default function ImageUpload({
+  id,
+  nr,
+  setLoading,
+}: {
+  id: string;
+  nr: number;
+  setLoading: (arg0: boolean) => void;
+}) {
   const utils = api.useUtils();
   const Images = api.einkauf.getImage.useQuery({ id });
   const imageUpload = api.einkauf.uploadImage.useMutation({
     onSuccess: async () => {
+      setLoading(false);
       await utils.einkauf.invalidate();
     },
   });
   const imageDelete = api.einkauf.deleteImage.useMutation({
     onSuccess: async () => {
+      setLoading(false);
       await utils.einkauf.invalidate();
     },
   });
@@ -69,16 +79,26 @@ export default function ImageUpload({ id, nr }: { id: string; nr: number }) {
         <div className="grid">
           <ImageCard
             caption=""
-            imageUrl={image == StockImage ? StockImage : image}
+            // @ts-expect-error null geht hier, wird jedoch als falsch gemeldet.
+            imageUrl={image == "" ? null : image}
             className="mb-5"
           />
-          <Button onClick={async () => imageDelete.mutateAsync({ id, nr })}>
+          <Button
+            onClick={async () => {
+              setLoading(true);
+              await imageDelete.mutateAsync({ id, nr });
+            }}
+          >
             Löschen
           </Button>
         </div>
       ) : (
         <UploadButton
           endpoint="imageUploader"
+          onBeforeUploadBegin={(files) => {
+            setLoading(true);
+            return files;
+          }}
           onClientUploadComplete={async (res) => {
             if (res[0])
               await imageUpload.mutateAsync({
