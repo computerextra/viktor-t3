@@ -1,7 +1,10 @@
 import "@/styles/globals.css";
 
+import { ourFileRouter } from "@/app/api/uploadthing/core";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
+import { extractRouterConfig } from "uploadthing/server";
 
 import { TRPCReactProvider } from "@/trpc/react";
 import NavBar from "./_components/nav-bar";
@@ -18,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="de" className={`${GeistSans.variable}`}>
       <body>
+        <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
         <TRPCReactProvider>
           <NavBar />
           <div className="container mx-auto mt-5">{children}</div>

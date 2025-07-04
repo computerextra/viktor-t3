@@ -1,6 +1,5 @@
+import { env } from "@/env";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
-import { unlink } from "fs/promises";
-import path from "path";
 import { z } from "zod";
 
 export const einkaufRouter = createTRPCRouter({
@@ -36,7 +35,7 @@ export const einkaufRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const { id, imageNr, imageName } = input;
-
+      const path = env.UPLOADTHING_URL + imageName;
       const Mitarbeiter = await ctx.db.mitarbeiter.findUnique({
         where: {
           id,
@@ -68,7 +67,7 @@ export const einkaufRouter = createTRPCRouter({
               id: einkaufId,
             },
             data: {
-              Bild1: imageName,
+              Bild1: path,
             },
           });
         }
@@ -78,7 +77,7 @@ export const einkaufRouter = createTRPCRouter({
               id: einkaufId,
             },
             data: {
-              Bild2: imageName,
+              Bild2: path,
             },
           });
         }
@@ -88,7 +87,7 @@ export const einkaufRouter = createTRPCRouter({
               id: einkaufId,
             },
             data: {
-              Bild3: imageName,
+              Bild3: path,
             },
           });
         }
@@ -104,10 +103,9 @@ export const einkaufRouter = createTRPCRouter({
 
       if (Mitarbeiter == null) return;
       if (Mitarbeiter.einkaufId == null) return;
-      const uploadPath = path.join(process.cwd() + "/public", "/images");
+
       switch (input.nr) {
         case 1: {
-          await unlink(path.join(uploadPath, Mitarbeiter.Einkauf!.Bild1!));
           return await ctx.db.einkauf.update({
             where: {
               id: Mitarbeiter.einkaufId,
@@ -118,7 +116,6 @@ export const einkaufRouter = createTRPCRouter({
           });
         }
         case 2: {
-          await unlink(path.join(uploadPath, Mitarbeiter.Einkauf!.Bild2!));
           return await ctx.db.einkauf.update({
             where: {
               id: Mitarbeiter.einkaufId,
@@ -129,7 +126,6 @@ export const einkaufRouter = createTRPCRouter({
           });
         }
         case 3: {
-          await unlink(path.join(uploadPath, Mitarbeiter.Einkauf!.Bild3!));
           return await ctx.db.einkauf.update({
             where: {
               id: Mitarbeiter.einkaufId,

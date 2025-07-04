@@ -3,7 +3,7 @@
 - [x] Warenlieferungsmail
 - [x] Verwaltung für Webseite
 - [x] Mitarbeiter Übersicht mit Internen/Externen Telefonnummern
-- [ ] Bilder für Einkauf
+- [x] Bilder für Einkauf
 - [ ] Kunden / Lieferantensuche mit SAGE Integration
 - [ ] Rückwärtssuche nach Telefonnummern mit SAGE Integration
 - [ ] Lieferantenübersicht mit Ansprechpartnern

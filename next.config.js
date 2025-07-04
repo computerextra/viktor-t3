@@ -13,7 +13,10 @@ const config = {
     ignoreBuildErrors: true,
   },
   images: {
-    remotePatterns: [new URL("https://computer-extra.de/Images/Partner/**")],
+    remotePatterns: [
+      new URL("https://computer-extra.de/Images/Partner/**"),
+      new URL("https://ohlejl5x6p.ufs.sh/f/**"),
+    ],
   },
 };
 

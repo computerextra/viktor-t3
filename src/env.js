@@ -18,6 +18,9 @@ export const env = createEnv({
     SMTP_PASS: z.string(),
     SMTP_FROM: z.string(),
     ARCHIVE_PATH: z.string(),
+    UPLOADTHING_TOKEN: z.string(),
+    UPLOADTHING_URL: z.string(),
+    UPLOADTHING_SECRET: z.string(),
   },
 
   /**
@@ -43,6 +46,9 @@ export const env = createEnv({
     SMTP_FROM: process.env.SMTP_FROM,
     NODE_ENV: process.env.NODE_ENV,
     ARCHIVE_PATH: process.env.ARCHIVE_PATH,
+    UPLOADTHING_TOKEN: process.env.UPLOADTHING_TOKEN,
+    UPLOADTHING_URL: process.env.UPLOADTHING_URL,
+    UPLOADTHING_SECRET: process.env.UPLOADTHING_SECRET,
 
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
