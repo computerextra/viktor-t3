@@ -1,5 +1,5 @@
 import { HydrateClient } from "@/trpc/server";
-import ArchiveForm from "../_components/archive-form";
+import ArchiveForm from "./_components/archive-form";
 
 export default function Page() {
   return (

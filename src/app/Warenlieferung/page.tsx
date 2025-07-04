@@ -1,5 +1,5 @@
 import { HydrateClient } from "@/trpc/server";
-import { Warenlieferung } from "../_components/warenlieferung";
+import { Warenlieferung } from "./_components/warenlieferung";
 
 export default function Page() {
   return (

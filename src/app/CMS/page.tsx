@@ -1,5 +1,5 @@
 import { api, HydrateClient } from "@/trpc/server";
-import CmsNavigation from "../_components/cms-navigation";
+import CmsNavigation from "./_components/cms-navigation";
 
 export default async function Page() {
   await api.cms.getCounts.prefetch();

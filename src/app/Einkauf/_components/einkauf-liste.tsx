@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import {
   type ColumnDef,
@@ -16,6 +17,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { Check, Cross } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import type { Einkauf, Mitarbeiter } from "viktor/viktor-database-client";
 
@@ -88,8 +90,49 @@ export default function EinkaufListe() {
     {
       accessorKey: "Bild1",
       header: "Bilder",
-      cell: () => {
-        return <p className="print:hidden">NYI</p>;
+      cell: ({ row }) => {
+        const x = row.original;
+
+        let count = 0;
+        if (x.Bild1) count += 1;
+        if (x.Bild2) count += 1;
+        if (x.Bild3) count += 1;
+
+        return (
+          <div
+            className={cn(
+              "grid gap-1",
+              count == 1 && "grid-cols-1",
+              count == 2 && "grid-cols-2",
+              count == 3 && "grid-cols-3",
+            )}
+          >
+            {x.Bild1 && (
+              <Image
+                src={"/images/" + x.Bild1}
+                alt={x.Bild1}
+                width={75}
+                height={75}
+              />
+            )}
+            {x.Bild2 && (
+              <Image
+                src={"/images/" + x.Bild2}
+                alt={x.Bild2}
+                width={75}
+                height={75}
+              />
+            )}
+            {x.Bild3 && (
+              <Image
+                src={"/images/" + x.Bild3}
+                alt={x.Bild3}
+                width={75}
+                height={75}
+              />
+            )}
+          </div>
+        );
       },
     },
   ];
@@ -100,24 +143,65 @@ export default function EinkaufListe() {
         <EinkaufTable columns={columns} data={Liste.data ?? []} />
       </div>
       <div className="hidden print:block">
-        {Liste.data?.map((x) => (
-          <div key={x.id} className="mt-2 grid grid-cols-4 gap-2 border-b-2">
-            <div className="border-e-2">
-              <p>{x.Mitarbeiter?.name}</p>
-              <p>Geld: {x.Geld} €</p>
-              <p>Pfand: {x.Pfand} €</p>
-              <p className="flex items-center gap-2">
-                Paypal: {x.Paypal ? <Yes /> : <No />}
-              </p>
-              <p className="flex items-center gap-2">
-                Abonniert: {x.Abonniert ? <Yes /> : <No />}
-              </p>
+        {Liste.data?.map((x) => {
+          let count = 0;
+          if (x.Bild1) count += 1;
+          if (x.Bild2) count += 1;
+          if (x.Bild3) count += 1;
+          return (
+            <div key={x.id} className="mt-2 grid grid-cols-6 gap-2 border-b-2">
+              <div className="border-e-2">
+                <p>{x.Mitarbeiter?.name}</p>
+                <p>Geld: {x.Geld} €</p>
+                <p>Pfand: {x.Pfand} €</p>
+                <p className="flex items-center gap-2">
+                  Paypal: {x.Paypal ? <Yes /> : <No />}
+                </p>
+                <p className="flex items-center gap-2">
+                  Abonniert: {x.Abonniert ? <Yes /> : <No />}
+                </p>
+              </div>
+              <div className="col-span-3">
+                <pre className="font-sans">{x.Dinge}</pre>
+              </div>
+              <div className="col-span-2">
+                <div
+                  className={cn(
+                    "grid gap-1",
+                    count == 1 && "grid-cols-1",
+                    count == 2 && "grid-cols-2",
+                    count == 3 && "grid-cols-3",
+                  )}
+                >
+                  {x.Bild1 && (
+                    <Image
+                      src={"/images/" + x.Bild1}
+                      alt={x.Bild1}
+                      width={75}
+                      height={75}
+                    />
+                  )}
+                  {x.Bild2 && (
+                    <Image
+                      src={"/images/" + x.Bild2}
+                      alt={x.Bild2}
+                      width={75}
+                      height={75}
+                    />
+                  )}
+                  {x.Bild3 && (
+                    <Image
+                      src={"/images/" + x.Bild3}
+                      alt={x.Bild3}
+                      width={75}
+                      height={75}
+                    />
+                  )}
+                </div>
+              </div>
             </div>
-            <div className="col-span-3">
-              <pre className="font-sans">{x.Dinge}</pre>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

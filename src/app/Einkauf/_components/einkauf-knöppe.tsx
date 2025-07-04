@@ -25,9 +25,17 @@ import { useState } from "react";
 
 export default function EinkaufKnöppe() {
   return (
-    <div className="mb-5 grid grid-cols-2 gap-8">
+    <div className="mb-5 grid grid-cols-3 gap-8">
       <EingabeKnopp />
-
+      <Button asChild>
+        <a
+          href="https://www.edeka.de/markt-id/10001842/prospekt/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Edeka Blättchen
+        </a>
+      </Button>
       <Button onClick={() => window.print()}>Drucken</Button>
     </div>
   );

@@ -1,6 +1,6 @@
 import { api, HydrateClient } from "@/trpc/server";
-import EinkaufKnöppe from "../_components/einkauf-knöppe";
-import EinkaufListe from "../_components/einkauf-liste";
+import EinkaufKnöppe from "./_components/einkauf-knöppe";
+import EinkaufListe from "./_components/einkauf-liste";
 
 export default async function Page() {
   await api.einkauf.liste.prefetch();

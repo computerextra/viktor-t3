@@ -31,6 +31,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import ImageUpload from "./image-upload";
 
 const formSchema = z.object({
   Abo: z.boolean().default(false).optional(),
@@ -196,6 +197,11 @@ export default function EinkaufForm({ id }: { id: string }) {
             <Button type="submit">Speichern</Button>
           </form>
         </Form>
+      </div>
+      <div className="mx-auto mt-5 grid max-w-4xl grid-cols-3 gap-8">
+        <ImageUpload id={id} nr={1} />
+        <ImageUpload id={id} nr={2} />
+        <ImageUpload id={id} nr={3} />
       </div>
       <Separator className="my-8" />
       <div className="mx-auto grid max-w-[60%] grid-cols-2 gap-8">
