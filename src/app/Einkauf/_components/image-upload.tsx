@@ -21,8 +21,8 @@ const formSchema = z.object({
     .refine((file) => file, {
       message: "Bitte ein Bild hochladen",
     })
-    .refine((file: File) => file?.size < 1000000, {
-      message: "Das Bild darf nicht größer als 1MB sein!",
+    .refine((file: File) => file?.size < 1000000 * 3, {
+      message: "Das Bild darf nicht größer als 2MB sein!",
     })
     .refine(
       (file: File) => {
@@ -128,13 +128,6 @@ export default function ImageUpload({ id, nr }: { id: string; nr: number }) {
     setIsLoading(true);
     setIsError(false);
 
-    // const reader = new FileReader();
-    // let bufString = "";
-    // reader.readAsDataURL(data.image as Blob);
-    // reader.onload = () => {
-    //   bufString = reader.result as string;
-    // };
-
     try {
       const formData = new FormData();
       formData.append("image", data.image as File);
@@ -159,10 +152,6 @@ export default function ImageUpload({ id, nr }: { id: string; nr: number }) {
     } finally {
       setIsLoading(false);
     }
-
-    // const extension = image.type.split("/")[1];
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    // const res = await uploadImage(bufString, id, nr, extension ?? "");
   };
 
   const showDelete =
