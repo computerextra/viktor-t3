@@ -48,3 +48,4 @@ yarn-error.log*
 viktor/viktor-database-client
 
 sage/sage-database-client
+public/images/*
