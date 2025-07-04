@@ -14,15 +14,7 @@ export default function ImageCard({ imageUrl, caption, className }: Props) {
         className,
       )}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        height={150}
-        width={150}
-        loading="eager"
-        className="aspect-4/3 w-full"
-        src={imageUrl}
-        alt="image"
-      />
+      <img className="aspect-4/3 w-full" src={imageUrl} alt="image" />
       <figcaption className="text-main-foreground border-border border-t-2 p-4">
         {caption}
       </figcaption>
