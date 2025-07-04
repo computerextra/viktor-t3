@@ -108,28 +108,13 @@ export default function EinkaufListe() {
             )}
           >
             {x.Bild1 && (
-              <Image
-                src={"/images/" + x.Bild1}
-                alt={x.Bild1}
-                width={75}
-                height={75}
-              />
+              <Image src={x.Bild1} alt={x.Bild1} width={75} height={75} />
             )}
             {x.Bild2 && (
-              <Image
-                src={"/images/" + x.Bild2}
-                alt={x.Bild2}
-                width={75}
-                height={75}
-              />
+              <Image src={x.Bild2} alt={x.Bild2} width={75} height={75} />
             )}
             {x.Bild3 && (
-              <Image
-                src={"/images/" + x.Bild3}
-                alt={x.Bild3}
-                width={75}
-                height={75}
-              />
+              <Image src={x.Bild3} alt={x.Bild3} width={75} height={75} />
             )}
           </div>
         );
@@ -174,28 +159,13 @@ export default function EinkaufListe() {
                   )}
                 >
                   {x.Bild1 && (
-                    <Image
-                      src={"/images/" + x.Bild1}
-                      alt={x.Bild1}
-                      width={75}
-                      height={75}
-                    />
+                    <Image src={x.Bild1} alt={x.Bild1} width={75} height={75} />
                   )}
                   {x.Bild2 && (
-                    <Image
-                      src={"/images/" + x.Bild2}
-                      alt={x.Bild2}
-                      width={75}
-                      height={75}
-                    />
+                    <Image src={x.Bild2} alt={x.Bild2} width={75} height={75} />
                   )}
                   {x.Bild3 && (
-                    <Image
-                      src={"/images/" + x.Bild3}
-                      alt={x.Bild3}
-                      width={75}
-                      height={75}
-                    />
+                    <Image src={x.Bild3} alt={x.Bild3} width={75} height={75} />
                   )}
                 </div>
               </div>
