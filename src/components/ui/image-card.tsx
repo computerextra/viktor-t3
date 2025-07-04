@@ -1,23 +1,31 @@
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 type Props = {
-  imageUrl: string
-  caption: string
-  className?: string
-}
+  imageUrl: string;
+  caption: string;
+  className?: string;
+};
 
 export default function ImageCard({ imageUrl, caption, className }: Props) {
   return (
     <figure
       className={cn(
-        "w-[250px] overflow-hidden rounded-base border-2 border-border bg-main font-base shadow-shadow",
+        "rounded-base border-border bg-main font-base shadow-shadow w-[250px] overflow-hidden border-2",
         className,
       )}
     >
-      <img className="w-full aspect-4/3" src={imageUrl} alt="image" />
-      <figcaption className="border-t-2 text-main-foreground border-border p-4">
+      <Image
+        height={150}
+        width={150}
+        loading="eager"
+        className="aspect-4/3 w-full"
+        src={imageUrl}
+        alt="image"
+      />
+      <figcaption className="text-main-foreground border-border border-t-2 p-4">
         {caption}
       </figcaption>
     </figure>
-  )
+  );
 }
