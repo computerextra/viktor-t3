@@ -110,7 +110,9 @@ export const cmsRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       await ctx.db.angebot.update({
         where: { id: input.id },
-        data: input,
+        data: {
+          anzeigen: input.mode,
+        },
       });
     }),
   updateAngebot: publicProcedure
